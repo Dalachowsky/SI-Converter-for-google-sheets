@@ -1,0 +1,45 @@
+/**
+ * Converts a number to SI notation
+ *
+ * @param {number} input number you want to convert
+ * @param {string} unit unit the number should be in 
+ * @return converted number
+ * @customfunction
+ */
+function convertToSI(input, unit=''){
+  var multiplicity = 0;
+  var prefixes = {
+    '9': 'G',
+    '6': 'M',
+    '3': 'k',
+    '0': '',
+    '-3': 'm',
+    '-6': 'μ',
+    '-9': 'n',
+    '-12': 'p',
+    '-15': 'f'
+  }
+  //if number is smaller than 1
+  if(Math.abs(input)<1){
+    while(Math.abs(input)<1){
+      input*=Math.pow(10,3);
+      multiplicity -= 3;
+    }
+  }
+  //if number is bigger than 999
+  else if(Math.abs(input)>999){
+  while(Math.abs(input)>999){
+      input*=Math.pow(10,-3);
+      multiplicity += 3;
+    }
+  //if number doesn't need conversion
+  }else{
+    input = Math.round(input*100)/100;
+    input = input.toString().replace('.',',');
+    return input.toString()+unit;
+  }
+  input = Math.round(input*100)/100;
+  input = input.toString().replace('.',',');
+  return input.toString()+prefixes[multiplicity.toString()]+unit;
+}
+
